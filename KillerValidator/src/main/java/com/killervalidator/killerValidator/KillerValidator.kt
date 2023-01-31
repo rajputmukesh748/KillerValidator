@@ -1,8 +1,11 @@
 package com.killervalidator.killerValidator
 
+import android.content.Context
 import com.killervalidator.models.ValidatorModel
+import com.killervalidator.utils.ContextHelper
 import com.killervalidator.utils.safeCallBlock
 import com.killervalidator.validatorCheck.ValidatorCheck
+import com.killervalidator.validatorClasses.MatchFieldValidator
 
 /**
  * Killer Validator
@@ -21,6 +24,17 @@ object KillerValidator {
     var killerCallback: KillerCallback? = null
 
 
+
+    /**
+     * Initialize
+     * */
+    fun initialize(context: Context){
+        safeCallBlock {
+            ContextHelper.setContext(context = context)
+        }
+    }
+
+
     /**
      * Is Valid Check
      * */
@@ -32,6 +46,7 @@ object KillerValidator {
             fields.forEach { field ->
                 ValidatorCheck(field = field, dataClass = dataClass)
             }
+            MatchFieldValidator(fields, dataClass)
             killerCallback.callback(errorList)
         }
     }

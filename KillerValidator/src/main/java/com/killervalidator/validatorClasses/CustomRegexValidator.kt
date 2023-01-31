@@ -25,6 +25,7 @@ class CustomRegexValidator<T>(
      * */
     private fun checkRegex() {
         safeCallBlock {
+            field.isAccessible = true
             val value = field.get(dataClass)?.toString().orEmpty().trim()
             if (annotation.regex.isNullOrEmpty()) {
                 ValidatorModel(

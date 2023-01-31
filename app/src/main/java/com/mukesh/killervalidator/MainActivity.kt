@@ -1,11 +1,10 @@
 package com.mukesh.killervalidator
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.killervalidator.annotationClasses.EmailField
-import com.killervalidator.annotationClasses.ErrorMessage
-import com.killervalidator.annotationClasses.PasswordField
-import com.killervalidator.annotationClasses.RequiredField
+import android.view.View
+import com.killervalidator.annotationClasses.*
 import com.killervalidator.killerValidator.KillerValidator
 
 class MainActivity : AppCompatActivity() {
@@ -20,12 +19,8 @@ class MainActivity : AppCompatActivity() {
 
 data class ValidatorData(
     @RequiredField
-    @ErrorMessage("Please enter name.")
-    val name1: String? = null,
-    @RequiredField
-    @PasswordField
-    val message: String? = null
-
+    @ErrorMessage(R.string.app_name)
+    val password: String? = null
 )
 
 fun main(){

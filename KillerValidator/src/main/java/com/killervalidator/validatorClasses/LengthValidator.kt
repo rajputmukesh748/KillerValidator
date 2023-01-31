@@ -1,6 +1,9 @@
 package com.killervalidator.validatorClasses
 
 import com.killervalidator.annotationClasses.LengthField
+import com.killervalidator.models.ErrorTypes
+import com.killervalidator.models.ValidatorModel
+import com.killervalidator.utils.addErrorMessage
 import com.killervalidator.utils.safeCallBlock
 import java.lang.reflect.Field
 
@@ -17,10 +20,16 @@ class LengthValidator<T>(
 
     private fun checkLength() {
         safeCallBlock {
+            field.isAccessible = true
             val value = field.get(dataClass)?.toString().orEmpty().trim()
             val isMinimum = value.isMinLength(lengthField.minLength)
-            val isMaximum = value.isMinLength(lengthField.maxLength)
-
+            val isMaximum = value.isMaxLength(lengthField.maxLength)
+            if (isMinimum || isMaximum) {
+                ValidatorModel(
+                    errorType = ErrorTypes.LENGTH_ERROR,
+                    errorMessages = if (errorMessage.isNullOrEmpty()) "${field.name} min ${lengthField.minLength} and max ${lengthField.maxLength} character allowed." else errorMessage
+                ).addErrorMessage()
+            }
         }
     }
 

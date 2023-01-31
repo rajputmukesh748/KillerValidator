@@ -12,4 +12,10 @@ object ConstantValues {
     /** Password Regex */
     const val PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@*#$%^&+=!])(?=\\S+$).{8,50}$"
 
+
+    /**
+     * URL Validator
+     * */
+    const val URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
+
 }

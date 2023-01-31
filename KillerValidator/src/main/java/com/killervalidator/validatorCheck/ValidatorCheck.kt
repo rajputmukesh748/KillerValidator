@@ -1,11 +1,10 @@
 package com.killervalidator.validatorCheck
 
-import com.killervalidator.annotationClasses.EmailField
-import com.killervalidator.annotationClasses.ErrorMessage
-import com.killervalidator.annotationClasses.PasswordField
-import com.killervalidator.annotationClasses.RequiredField
+import com.killervalidator.annotationClasses.*
+import com.killervalidator.utils.ContextHelper
 import com.killervalidator.utils.safeCallBlock
 import com.killervalidator.validatorClasses.EmailValidator
+import com.killervalidator.validatorClasses.LinkValidator
 import com.killervalidator.validatorClasses.PasswordValidator
 import com.killervalidator.validatorClasses.RequiredValidator
 import java.lang.reflect.Field
@@ -26,6 +25,7 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
                 checkRequiredAnnotation()
                 checkEmailAnnotation()
                 checkPasswordAnnotation()
+                linkAnnotation()
             }
 
         }
@@ -63,11 +63,21 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
 
 
     /**
+     * Check Link Annotation
+     * */
+    private fun String.linkAnnotation() {
+        field.getAnnotation(LinkField::class.java)?.let {
+            LinkValidator(field = field, dataClass = dataClass, errorMessage = this)
+        }
+    }
+
+
+    /**
      * Get Error Messages
      * */
     private fun Field.getMessage(): String =
         getAnnotation(ErrorMessage::class.java)?.let {
-            it.message
+            ContextHelper.getContext()?.getString(it.message).orEmpty()
         }.orEmpty()
 
 }
