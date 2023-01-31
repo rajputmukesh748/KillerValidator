@@ -6,5 +6,4 @@ package com.killervalidator.annotationClasses
  * */
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-@Repeatable
-annotation class Required
+annotation class RequiredField

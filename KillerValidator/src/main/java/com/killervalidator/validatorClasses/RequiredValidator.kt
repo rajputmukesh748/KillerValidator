@@ -1,13 +1,16 @@
 package com.killervalidator.validatorClasses
 
 import android.text.TextUtils
+import com.killervalidator.models.ErrorTypes
+import com.killervalidator.models.ValidatorModel
+import com.killervalidator.utils.addErrorMessage
 import com.killervalidator.utils.safeCallBlock
 import java.lang.reflect.Field
 
 /**
  * Required Validator
  * */
-class RequiredValidator<T>(val field: Field, val dataClass: T) {
+class RequiredValidator<T>(val field: Field, val dataClass: T, val errorMessage: String?) {
 
     init {
         checkRequired()
@@ -19,9 +22,13 @@ class RequiredValidator<T>(val field: Field, val dataClass: T) {
      * */
     private fun checkRequired() {
         safeCallBlock {
-            val value: String = field.get(dataClass)?.toString().orEmpty()
-            if (TextUtils.isEmpty(value)){
-                throw Exception("${field.name} is required.")
+            field.isAccessible = true
+            val value: String = field.get(dataClass)?.toString().orEmpty().trim()
+            if (value.isEmpty()) {
+                ValidatorModel(
+                    errorType = ErrorTypes.REQUITED_ERROR,
+                    errorMessages = if (errorMessage.isNullOrEmpty()) "${field.name} is required." else errorMessage
+                ).addErrorMessage()
             }
         }
     }
