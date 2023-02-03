@@ -2,7 +2,8 @@ package com.killervalidator.models
 
 
 /**
- * Validator Model
+ * Validator Model for send
+ * ErrorMessage or ErrorType
  * */
 data class ValidatorModel(
     val errorMessages: String? = null,

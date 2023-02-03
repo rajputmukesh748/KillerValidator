@@ -3,10 +3,7 @@ package com.killervalidator.validatorCheck
 import com.killervalidator.annotationClasses.*
 import com.killervalidator.utils.ContextHelper
 import com.killervalidator.utils.safeCallBlock
-import com.killervalidator.validatorClasses.EmailValidator
-import com.killervalidator.validatorClasses.LinkValidator
-import com.killervalidator.validatorClasses.PasswordValidator
-import com.killervalidator.validatorClasses.RequiredValidator
+import com.killervalidator.validatorClasses.*
 import java.lang.reflect.Field
 
 class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
@@ -22,10 +19,12 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
     private fun check() {
         safeCallBlock {
             field.getMessage().apply {
-                checkRequiredAnnotation()
+                customRegexAnnotation()
                 checkEmailAnnotation()
-                checkPasswordAnnotation()
+                lengthAnnotation()
                 linkAnnotation()
+                checkPasswordAnnotation()
+                checkRequiredAnnotation()
             }
 
         }
@@ -68,6 +67,26 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
     private fun String.linkAnnotation() {
         field.getAnnotation(LinkField::class.java)?.let {
             LinkValidator(field = field, dataClass = dataClass, errorMessage = this)
+        }
+    }
+
+
+    /**
+     * Check Length Annotation
+     * */
+    private fun String.lengthAnnotation() {
+        field.getAnnotation(LengthField::class.java)?.let {
+            LengthValidator(lengthField = it, field = field, dataClass = dataClass, errorMessage = this)
+        }
+    }
+
+
+    /**
+     * Custom Regex Annotation
+     * */
+    private fun String.customRegexAnnotation() {
+        field.getAnnotation(CustomRegex::class.java)?.let {
+            CustomRegexValidator(annotation = it, field = field, dataClass = dataClass, errorMessage = this)
         }
     }
 

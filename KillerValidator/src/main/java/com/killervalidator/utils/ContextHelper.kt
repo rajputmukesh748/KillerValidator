@@ -3,6 +3,9 @@ package com.killervalidator.utils
 import android.content.Context
 import java.lang.ref.WeakReference
 
+/**
+ * Context Helper
+ * */
 object ContextHelper {
 
     private var context: WeakReference<Context>? = null

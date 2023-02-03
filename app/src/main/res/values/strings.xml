@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">KillerValidator</string>
+    <string name="empty_name">empty_name</string>
+    <string name="email_address">email_address</string>
+    <string name="custom_regex_Error">custom_regex_Error</string>
+    <string name="not_valid_length">not_valid_length</string>
+    <string name="not_valid_url">not_valid_url</string>
+    <string name="not_valid_password">not_valid_password</string>
+    <string name="email_not_match">email_not_match</string>
+    <string name="value_not_match">value_not_match</string>
 </resources>

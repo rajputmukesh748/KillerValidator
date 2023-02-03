@@ -24,11 +24,10 @@ object KillerValidator {
     var killerCallback: KillerCallback? = null
 
 
-
     /**
      * Initialize
      * */
-    fun initialize(context: Context){
+    fun initialize(context: Context) {
         safeCallBlock {
             ContextHelper.setContext(context = context)
         }
@@ -36,7 +35,27 @@ object KillerValidator {
 
 
     /**
-     * Is Valid Check
+     * Check data class all annotation values are valid or not
+     *
+     * How to use this function for validation check
+     *
+     *  KillerValidator.isValid(dataClass = ValidatorData()){
+     *       if (it.isNotEmpty()){
+     *            //For print message
+     *            println(it.map { it.errorMessages })
+     *
+     *            //Check which type of error
+     *            it.forEach {
+     *                when(it.errorType){
+     *                    ErrorTypes.REQUITED_ERROR -> { "TODO WORK" }
+     *                    else -> ""
+     *                }
+     *            }
+     *        } else {
+     *            //All validations are valid
+     *        }
+     *    }
+     *
      * */
     inline fun <reified T> isValid(dataClass: T, killerCallback: KillerCallback) {
         safeCallBlock {
