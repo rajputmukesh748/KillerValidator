@@ -32,7 +32,7 @@ class CustomRegexValidator<T>(
                     errorType = ErrorTypes.REGEX_ERROR,
                     errorMessages = "${field.name} field regex is empty."
                 ).addErrorMessage()
-            } else if (value.isValidRegex(annotation.regex)) {
+            } else if (value.isNotValidRegex(annotation.regex)) {
                 ValidatorModel(
                     errorType = ErrorTypes.REGEX_ERROR,
                     errorMessages = if (errorMessage.isNullOrEmpty()) "${field.name} field regex is not match." else errorMessage
@@ -45,6 +45,6 @@ class CustomRegexValidator<T>(
     /**
      * Check Is Valid Regex
      * */
-    private fun String.isValidRegex(regex: String) = !Pattern.matches(regex, this)
+    private fun String.isNotValidRegex(regex: String) = !Pattern.matches(regex, this)
 
 }

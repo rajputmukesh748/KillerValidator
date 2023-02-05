@@ -22,7 +22,7 @@ class PasswordValidator<T>(private val field: Field, private val dataClass: T, p
         safeCallBlock {
             field.isAccessible = true
             val value = field.get(dataClass)?.toString().orEmpty().trim()
-            if (value.isValidPassword()) {
+            if (value.isNotValidPassword()) {
                 ValidatorModel(
                     errorType = ErrorTypes.PASSWORD_ERROR,
                     errorMessages = if (errorMessage.isNullOrEmpty()) "${field.name} length must be greater then 8 character and contain at least one capital character, one small character, one alphanumeric and one special character." else errorMessage
@@ -35,6 +35,6 @@ class PasswordValidator<T>(private val field: Field, private val dataClass: T, p
     /**
      * Is Valid Password
      * */
-    private fun String.isValidPassword(): Boolean = !Pattern.matches(ConstantValues.PASSWORD_REGEX, this)
+    private fun String.isNotValidPassword(): Boolean = !Pattern.matches(ConstantValues.PASSWORD_REGEX, this)
 
 }

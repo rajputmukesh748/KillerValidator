@@ -24,7 +24,7 @@ class LinkValidator<T>(
         safeCallBlock {
             field.isAccessible = true
             val value = field.get(dataClass)?.toString().orEmpty().trim()
-            if (value.isValidLink()) {
+            if (value.isNotValidLink()) {
                 ValidatorModel(
                     errorType = ErrorTypes.URL_LINK_ERROR,
                     errorMessages = if (errorMessage.isNullOrEmpty()) "${field.name} is not a valid url." else errorMessage
@@ -37,6 +37,6 @@ class LinkValidator<T>(
     /**
      * Check is valid url or not
      * */
-    private fun String.isValidLink() = !Pattern.matches(ConstantValues.URL_REGEX, this.trim())
+    private fun String.isNotValidLink() = !Pattern.matches(ConstantValues.URL_REGEX, this.trim())
 
 }

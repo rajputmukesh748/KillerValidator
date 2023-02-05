@@ -25,7 +25,7 @@ class EmailValidator<T>(val field: Field, val dataClass: T, val errorMessage: St
         safeCallBlock {
             field.isAccessible = true
             val value = field.get(dataClass)?.toString().orEmpty().trim()
-            if (value.isValidEmail()) {
+            if (value.isNotValidEmail()) {
                 ValidatorModel(
                     errorType = ErrorTypes.EMAIL_ERROR,
                     errorMessages = if (errorMessage.isNullOrEmpty()) "${field.name} is not a valid email address." else errorMessage
@@ -38,6 +38,6 @@ class EmailValidator<T>(val field: Field, val dataClass: T, val errorMessage: St
     /**
      * Check Is Valid Email Or Not
      * */
-    private fun String.isValidEmail(): Boolean = !Pattern.matches(ConstantValues.EMAIL_REGEX, this)
+    private fun String.isNotValidEmail(): Boolean = !Pattern.matches(ConstantValues.EMAIL_REGEX, this)
 
 }
