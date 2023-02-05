@@ -19,7 +19,7 @@
 <h2>Available Annotations</h2>
 <ol>
   <li><h4>@RequiredField</h4></li>
-  <p>Required annotation check if variable is empty or not. If value is null then it will also return error.</p>
+  <p>Required annotation check if variable is empty or not. If value is null then it will also return error message.</p>
   <li><h4>@ErrorMessage(R.string.error_message)</h4></li>
   <p>ErrorMessage annotation is not required. They will help you to pass custom error messages. If you are not apply this annotation then it will automatically give error message according to field names.</p>
   <li><h4>@EmailField</h4></li>
