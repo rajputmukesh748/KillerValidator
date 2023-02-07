@@ -2,8 +2,7 @@ package com.killervalidator.validatorClasses
 
 import com.killervalidator.annotationClasses.CustomRegex
 import com.killervalidator.models.ErrorTypes
-import com.killervalidator.models.ValidatorModel
-import com.killervalidator.utils.addErrorMessage
+import com.killervalidator.utils.addErrorModel
 import com.killervalidator.utils.safeCallBlock
 import java.lang.reflect.Field
 import java.util.regex.Pattern
@@ -27,16 +26,14 @@ class CustomRegexValidator<T>(
         safeCallBlock {
             field.isAccessible = true
             val value = field.get(dataClass)?.toString().orEmpty().trim()
-            if (annotation.regex.isNullOrEmpty()) {
-                ValidatorModel(
-                    errorType = ErrorTypes.REGEX_ERROR,
-                    errorMessages = "${field.name} field regex is empty."
-                ).addErrorMessage()
+            if (annotation.regex.isEmpty()) {
+                "${field.name} field regex is empty.".addErrorModel(errorTypes = ErrorTypes.REGEX_ERROR)
+            } else if (value.isEmpty()) {
+                "${field.name} is not allowed to be empty.".addErrorModel(errorTypes = ErrorTypes.REGEX_ERROR)
             } else if (value.isNotValidRegex(annotation.regex)) {
-                ValidatorModel(
-                    errorType = ErrorTypes.REGEX_ERROR,
-                    errorMessages = if (errorMessage.isNullOrEmpty()) "${field.name} field regex is not match." else errorMessage
-                ).addErrorMessage()
+                (if (errorMessage.isNullOrEmpty()) "${field.name} field regex is not match." else errorMessage).addErrorModel(
+                    errorTypes = ErrorTypes.REGEX_ERROR
+                )
             }
         }
     }

@@ -2,8 +2,7 @@ package com.killervalidator.validatorClasses
 
 import com.killervalidator.annotationClasses.LengthField
 import com.killervalidator.models.ErrorTypes
-import com.killervalidator.models.ValidatorModel
-import com.killervalidator.utils.addErrorMessage
+import com.killervalidator.utils.addErrorModel
 import com.killervalidator.utils.safeCallBlock
 import java.lang.reflect.Field
 
@@ -24,19 +23,26 @@ class LengthValidator<T>(
             val value = field.get(dataClass)?.toString().orEmpty().trim()
             val isMinimum = value.isMinLength(lengthField.minLength)
             val isMaximum = value.isMaxLength(lengthField.maxLength)
-            if (isMinimum || isMaximum) {
-                ValidatorModel(
-                    errorType = ErrorTypes.LENGTH_ERROR,
-                    errorMessages = if (errorMessage.isNullOrEmpty()) "${field.name} min ${lengthField.minLength} and max ${lengthField.maxLength} character allowed." else errorMessage
-                ).addErrorMessage()
+            if (value.isEmpty()) {
+                "${field.name} is not allowed to be empty.".addErrorModel(ErrorTypes.LENGTH_ERROR)
+            } else if (isMinimum || isMaximum) {
+                (if (errorMessage.isNullOrEmpty()) "${field.name} min ${lengthField.minLength} and max ${lengthField.maxLength} character allowed." else errorMessage).addErrorModel(
+                    errorTypes = ErrorTypes.LENGTH_ERROR
+                )
             }
         }
     }
 
 
+    /**
+     * Check Minimum Length
+     * */
     private fun String.isMinLength(minLength: Int) = this.trim().length < minLength
 
 
+    /**
+     * Check Maximum Length
+     * */
     private fun String.isMaxLength(maxLength: Int) = this.trim().length > maxLength
 
 }
