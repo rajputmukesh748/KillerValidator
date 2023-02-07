@@ -23,17 +23,17 @@
   <li><h4>@ErrorMessage(R.string.error_message)</h4></li>
   <p>ErrorMessage annotation is not required. They will help you to pass custom error messages. If you are not apply this annotation then it will automatically give error message according to field names.</p>
   <li><h4>@EmailField</h4></li>
-  <p>EmailField annotation is used to check it's valid email address or not.</p>
+  <p>EmailField annotation is used to check its valid email address or not.</p>
   <li><h4>@CustomRegex("{ANY REGEX VALUE}")</h4></li>
   <p>If you want to validate custom regex then this will possible with the help of CustomRegex annotation.</p>
   <li><h4>@LengthField(minLength = 2, maxLength = 20)</h4></li>
   <p>LengthField is used to check minimum and maximum length of any variable.</p>
   <li><h4>@LinkField</h4></li>
-  <p>LinkField is used to check url's or link is valid or not. Https, Http or ftp any type of link check with the help of this annotation.</p>
+  <p>LinkField is used to check url or link is valid or not. Https, Http or ftp any type of link check with the help of this annotation.</p>
   <li><h4>@PasswordField</h4></li>
-  <p>PasswordField is used to check its valid password or not. In this validation user need to add One Capital Character, One Small Character, One Special Character, One Numeric character and length must be greater then 7.</p>
+  <p>PasswordField is used to check its valid password or not. In this validation user need to add One Capital Character, One Small Character, One Special Character, One Numeric character and length must be greater than 7.</p>
   <li><h4>@MatchField("uniqueType")</h4></li>
-  <p>MatchField is used to check values more then two fields. If you want to match variable values then you can pass same key on both variables. Also refer data class below attached example.</p>
+  <p>MatchField is used to check values more than two fields. If you want to match variable values then you can pass same key on both variables. Also refer data class below attached example.</p>
  </ol>
  
  <h2> How to used validator classes in app. </h2>
