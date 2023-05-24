@@ -52,7 +52,7 @@
 Step 2. Add the dependency
 
     dependencies {
-	        implementation 'com.github.rajputmukesh748:KillerValidator:1.2.0'
+	        implementation 'com.github.rajputmukesh748:KillerValidator:1.3.0'
 	  }
 
 <br>
