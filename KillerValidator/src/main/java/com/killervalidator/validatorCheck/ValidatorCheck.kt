@@ -1,9 +1,19 @@
 package com.killervalidator.validatorCheck
 
-import com.killervalidator.annotationClasses.*
-import com.killervalidator.utils.ContextHelper
+import com.killervalidator.annotationClasses.CustomRegex
+import com.killervalidator.annotationClasses.EmailField
+import com.killervalidator.annotationClasses.LengthField
+import com.killervalidator.annotationClasses.LinkField
+import com.killervalidator.annotationClasses.PasswordField
+import com.killervalidator.annotationClasses.RequiredField
+import com.killervalidator.utils.getErrorMessage
 import com.killervalidator.utils.safeCallBlock
-import com.killervalidator.validatorClasses.*
+import com.killervalidator.validatorClasses.CustomRegexValidator
+import com.killervalidator.validatorClasses.EmailValidator
+import com.killervalidator.validatorClasses.LengthValidator
+import com.killervalidator.validatorClasses.LinkValidator
+import com.killervalidator.validatorClasses.PasswordValidator
+import com.killervalidator.validatorClasses.RequiredValidator
 import java.lang.reflect.Field
 
 class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
@@ -18,15 +28,12 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
      * */
     private fun check() {
         safeCallBlock {
-            field.getMessage().apply {
-                customRegexAnnotation()
-                checkEmailAnnotation()
-                lengthAnnotation()
-                linkAnnotation()
-                checkPasswordAnnotation()
-                checkRequiredAnnotation()
-            }
-
+            customRegexAnnotation()
+            checkEmailAnnotation()
+            lengthAnnotation()
+            linkAnnotation()
+            checkPasswordAnnotation()
+            checkRequiredAnnotation()
         }
     }
 
@@ -34,9 +41,13 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
     /**
      * Check Required Annotation
      * */
-    private fun String.checkRequiredAnnotation() {
+    private fun checkRequiredAnnotation() {
         field.getAnnotation(RequiredField::class.java)?.let {
-            RequiredValidator(field = field, dataClass = dataClass, errorMessage = this)
+            RequiredValidator(
+                field = field,
+                dataClass = dataClass,
+                errorMessage = it.errorKey.getErrorMessage()
+            )
         }
     }
 
@@ -44,9 +55,13 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
     /**
      * Check Email Annotation
      * */
-    private fun String.checkEmailAnnotation() {
+    private fun checkEmailAnnotation() {
         field.getAnnotation(EmailField::class.java)?.let {
-            EmailValidator(field = field, dataClass = dataClass, errorMessage = this)
+            EmailValidator(
+                field = field,
+                dataClass = dataClass,
+                errorMessage = it.errorKey.getErrorMessage()
+            )
         }
     }
 
@@ -54,9 +69,13 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
     /**
      * Check Password Annotation
      * */
-    private fun String.checkPasswordAnnotation() {
+    private fun checkPasswordAnnotation() {
         field.getAnnotation(PasswordField::class.java)?.let {
-            PasswordValidator(field = field, dataClass = dataClass, errorMessage = this)
+            PasswordValidator(
+                field = field,
+                dataClass = dataClass,
+                errorMessage = it.errorKey.getErrorMessage()
+            )
         }
     }
 
@@ -64,9 +83,13 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
     /**
      * Check Link Annotation
      * */
-    private fun String.linkAnnotation() {
+    private fun linkAnnotation() {
         field.getAnnotation(LinkField::class.java)?.let {
-            LinkValidator(field = field, dataClass = dataClass, errorMessage = this)
+            LinkValidator(
+                field = field,
+                dataClass = dataClass,
+                errorMessage = it.errorKey.getErrorMessage()
+            )
         }
     }
 
@@ -74,9 +97,14 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
     /**
      * Check Length Annotation
      * */
-    private fun String.lengthAnnotation() {
+    private fun lengthAnnotation() {
         field.getAnnotation(LengthField::class.java)?.let {
-            LengthValidator(lengthField = it, field = field, dataClass = dataClass, errorMessage = this)
+            LengthValidator(
+                lengthField = it,
+                field = field,
+                dataClass = dataClass,
+                errorMessage = it.errorKey.getErrorMessage()
+            )
         }
     }
 
@@ -84,19 +112,15 @@ class ValidatorCheck<T>(private val field: Field, private val dataClass: T) {
     /**
      * Custom Regex Annotation
      * */
-    private fun String.customRegexAnnotation() {
+    private fun customRegexAnnotation() {
         field.getAnnotation(CustomRegex::class.java)?.let {
-            CustomRegexValidator(annotation = it, field = field, dataClass = dataClass, errorMessage = this)
+            CustomRegexValidator(
+                annotation = it,
+                field = field,
+                dataClass = dataClass,
+                errorMessage = it.errorKey.getErrorMessage()
+            )
         }
     }
-
-
-    /**
-     * Get Error Messages
-     * */
-    private fun Field.getMessage(): String =
-        getAnnotation(ErrorMessage::class.java)?.let {
-            ContextHelper.getContext()?.getString(it.message).orEmpty()
-        }.orEmpty()
 
 }

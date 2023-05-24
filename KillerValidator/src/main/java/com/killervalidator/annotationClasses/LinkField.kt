@@ -21,4 +21,4 @@ package com.killervalidator.annotationClasses
  * */
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class LinkField
+annotation class LinkField(val errorKey: String = "")

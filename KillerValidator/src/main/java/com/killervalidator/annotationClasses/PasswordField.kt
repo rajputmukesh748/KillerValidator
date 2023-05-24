@@ -31,4 +31,4 @@ package com.killervalidator.annotationClasses
  * */
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class PasswordField
+annotation class PasswordField(val errorKey: String = "")

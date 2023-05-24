@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
                 ErrorTypes.REQUITED_ERROR -> {
                     "TODO WORK"
                 }
+
                 else -> ""
             }
         }
@@ -45,59 +46,48 @@ class MainActivity : AppCompatActivity() {
  * Validator Data Class
  * */
 data class ValidatorData(
-    @RequiredField
-    @ErrorMessage(R.string.empty_name)
+    @RequiredField(errorKey = "empty_name")
     val name: String? = null,
 
-    @RequiredField
-    @EmailField
-    @ErrorMessage(R.string.email_address)
+    @RequiredField(errorKey = "empty_email")
+    @EmailField(errorKey = "email_address")
     val emailAddress: String? = null,
 
-    @RequiredField
-    @CustomRegex("{ANY REGEX VALUE}")
-    @ErrorMessage(R.string.custom_regex_Error)
+    @RequiredField(errorKey = "custom_regex_valid")
+    @CustomRegex(regex = "{ANY REGEX VALUE}", errorKey = "custom_regex_valid")
     val customRegex: String? = null,
 
-    @RequiredField
-    @LengthField(minLength = 2, maxLength = 20)
-    @ErrorMessage(R.string.not_valid_length)
+    @RequiredField(errorKey = "not_empty")
+    @LengthField(minLength = 2, maxLength = 20, errorKey = "length_error_message")
     val checkLength: String? = null,
 
-    @RequiredField
-    @LinkField
-    @ErrorMessage(R.string.not_valid_url)
+    @RequiredField(errorKey = "empty_url")
+    @LinkField(errorKey = "not_valid_url")
     val urlLink: String? = null,
 
-    @RequiredField
-    @PasswordField
-    @ErrorMessage(R.string.not_valid_password)
+    @RequiredField(errorKey = "empty_password")
+    @PasswordField(errorKey = "not_valid_password")
     val password: String? = null,
 
     //Apply Same key and automatically match all same keys
-    @RequiredField
-    @MatchField("email")
-    @ErrorMessage(R.string.email_not_match)
+    @RequiredField(errorKey = "empty_email")
+    @MatchField(key = "email", errorKey = "not_valid_email")
     val reEnterEmail: String? = null,
 
-    @RequiredField
-    @MatchField("email")
-    @ErrorMessage(R.string.email_not_match)
+    @RequiredField("empty_confirm_email")
+    @MatchField(key = "email", errorKey = "not_valid_email")
     val confirmEmail: String? = null,
 
     //Apply Same key and automatically match all same keys
-    @RequiredField
-    @MatchField("checkValues")
-    @ErrorMessage(R.string.value_not_match)
+    @RequiredField(errorKey = "empty_value")
+    @MatchField(key = "checkValues", errorKey = "value_not_match")
     val value1: String? = null,
 
-    @RequiredField
-    @MatchField("checkValues")
-    @ErrorMessage(R.string.value_not_match)
+    @RequiredField(errorKey = "empty_value")
+    @MatchField(key = "checkValues", errorKey = "value_not_match")
     val value2: String? = null,
 
-    @RequiredField
-    @MatchField("checkValues")
-    @ErrorMessage(R.string.value_not_match)
+    @RequiredField(errorKey = "empty_value")
+    @MatchField(key = "checkValues", errorKey = "value_not_match")
     val value3: String? = null
 )

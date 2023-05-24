@@ -1,12 +1,9 @@
 package com.killervalidator.validatorClasses
 
-import com.killervalidator.annotationClasses.ErrorMessage
 import com.killervalidator.annotationClasses.MatchField
 import com.killervalidator.models.ErrorTypes
-import com.killervalidator.models.ValidatorModel
-import com.killervalidator.utils.ContextHelper
-import com.killervalidator.utils.addErrorMessage
 import com.killervalidator.utils.addErrorModel
+import com.killervalidator.utils.getErrorMessage
 import com.killervalidator.utils.safeCallBlock
 import java.lang.reflect.Field
 
@@ -71,8 +68,8 @@ class MatchFieldValidator<T>(private val fields: Array<Field>, private val dataC
      * Get Error Messages
      * */
     private fun Field.getMessage(): String =
-        getAnnotation(ErrorMessage::class.java)?.let {
-            ContextHelper.getContext()?.getString(it.message).orEmpty()
+        getAnnotation(MatchField::class.java)?.let {
+            it.errorKey.getErrorMessage()
         }.orEmpty()
 
 }

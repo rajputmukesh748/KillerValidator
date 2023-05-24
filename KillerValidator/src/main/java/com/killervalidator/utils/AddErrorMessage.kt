@@ -25,3 +25,20 @@ fun String.addErrorModel(errorTypes: ErrorTypes) {
         errorMessages = this
     ).addErrorMessage()
 }
+
+
+/**
+ * Get Error Message
+ * */
+fun String?.getErrorMessage(): String? {
+    if (this.isNullOrEmpty()) return null
+    return ContextHelper.getContext()?.let {
+        return try {
+            val stringRes =
+                it.resources?.getIdentifier(this, "string", it.packageName) ?: throw Exception()
+            it.getString(stringRes)
+        } catch (e: Exception) {
+            null
+        }
+    } ?: run { null }
+}
