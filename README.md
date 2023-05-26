@@ -14,14 +14,12 @@
   <li>Match multiple fields validation</li>
   <li>Custom Regex check validation</li>
  </ol>
- 
- 
+
+
 <h2>Available Annotations</h2>
 <ol>
   <li><h4>@RequiredField</h4></li>
   <p>Required annotation check if variable is empty or not. If value is null then it will also return error message.</p>
-  <li><h4>@ErrorMessage(R.string.error_message)</h4></li>
-  <p>ErrorMessage annotation is not required. They will help you to pass custom error messages. If you are not apply this annotation then it will automatically give error message according to field names.</p>
   <li><h4>@EmailField</h4></li>
   <p>EmailField annotation is used to check its valid email address or not.</p>
   <li><h4>@CustomRegex("{ANY REGEX VALUE}")</h4></li>
@@ -35,11 +33,12 @@
   <li><h4>@MatchField("uniqueType")</h4></li>
   <p>MatchField is used to check values more than two fields. If you want to match variable values then you can pass same key on both variables. Also refer data class below attached example.</p>
  </ol>
- 
+
  <h2> How to used validator classes in app. </h2>
 
 <h3>How to integrate into your app?</h3>
-&nbsp;&nbsp;Step 1. Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
+&nbsp;&nbsp;Step 1. Add the JitPack repository to your build file. Add it in your root build.gradle
+at the end of repositories:
 
     allprojects {
 		  repositories {
@@ -47,8 +46,7 @@
 		  	maven { url 'https://jitpack.io' }
 		  }
 	  }
-  
- 
+
 Step 2. Add the dependency
 
     dependencies {
@@ -57,26 +55,42 @@ Step 2. Add the dependency
 
 <br>
 <h2>Source Code</h2>
- 
- <h4>1. Initialized validator classes in application class.</h4>
-      
+
+<h4>1. Initialized validator classes in application class.</h4>
+
       class ApplicationClass: Application() {
           override fun onCreate() {
             super.onCreate()
             KillerValidator.initialize(context = applicationContext)
          }
       }
-  
-  
-  <h4>2. Add application class in manifest file.</h4>
-     
+
+<h4>2. Add application class in manifest file.</h4>
+
      <application
             android:name=".ApplicationClass"
             />
-            
- 
- <h4>3. How to apply validation's in data class.</h4>
-     
+
+<h4>3. What is errorKey in annotations parameter.</h4>
+<p>It's used for provide custom error messages to user.</p>
+<p>ErrorKey annotation is user in every annotation but its optional. If developer not provide this
+key then in-build error message will return. If developer provide "errorKey" is any annotation and
+provide string file key in that, then it will return a user error message.</p>
+
+    1. Firstly declare error message in `string.xml` file
+        <string name="not_valid_email_address">Please enter valid email address.</string>
+
+    2. Now provide string key into any errorKey in any annotation. Please refer below syntax.
+            data class Login(
+                @EmailField(errorKey = "not_valid_email_address")
+                var email: String? = null
+            )
+
+    3. `not_valid_email_address` is a key that declare in `string.xml` file.
+
+
+<h4>4. How to apply validation's in data class.</h4>
+
         data class ValidatorData( 
             @RequiredField(errorKey = "empty_name")
             val name: String? = null,
@@ -123,11 +137,9 @@ Step 2. Add the dependency
             @MatchField(key = "checkValues", errorKey = "value_not_match")
             val value3: String? = null
          )
-         
-          
-<h4>4. How to check data class all validation are valid or not.</h4>
-      
-      
+
+<h4>5. How to check data class all validation are valid or not.</h4>
+
       KillerValidator.isValid(dataClass = ValidatorData()) {
             if (it.isNotEmpty()) {
                 it.errorHandling()
@@ -136,8 +148,7 @@ Step 2. Add the dependency
             }
         }
 
-          
-<h4>4. Get error messages and also check error type.</h4>
+<h4>6. Get error messages and also check error type.</h4>
 
      private fun ArrayList<ValidatorModel>.errorHandling() {
           println(map { it.errorMessages })
@@ -152,6 +163,5 @@ Step 2. Add the dependency
               }
           }
       }
-      
-      
+
 <b><h3>Thanks for your support. Please try and support it.</h3></b>
