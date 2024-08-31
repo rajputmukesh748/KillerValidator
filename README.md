@@ -164,4 +164,4 @@ provide string file key in that, then it will return a user error message.</p>
           }
       }
 
-<b><h3>Thanks for your support. Please try and support it.</h3></b>
+<b><h3>Thank you for your support.</h3></b>
